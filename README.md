@@ -1,5 +1,7 @@
 # CNCF Maintainers Dashboard
 
+Check the dashboard at [https://cncf-dashboard.vercel.app/](https://cncf-dashboard.vercel.app/)
+
 An interactive dashboard for exploring CNCF (Cloud Native Computing Foundation) project maintainers — who they are, which companies they work for, and how they're distributed across projects.
 
 ## Overview
