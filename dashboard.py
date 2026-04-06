@@ -1,11 +1,16 @@
+import os
 import pandas as pd
 import plotly.express as px
 from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 
-# ── Data loading ──────────────────────────────────────────────────────────────
+_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-def load_data(path="data/project-maintainers.csv"):
+# data loading
+
+def load_data(path=None):
+    if path is None:
+        path = os.path.join(_ROOT, "data", "project-maintainers.csv")
     df = pd.read_csv(path, header=0)
     df.columns = ["Status", "Project", "Maintainer", "Company", "GitHub", "OwnersURL"]
     df["Status"]  = df["Status"].replace("", pd.NA).ffill()
@@ -23,7 +28,7 @@ df = load_data()
 
 STATUS_COLORS = {"Graduated": "#2E86AB", "Incubating": "#F6AE2D", "Sandbox": "#A23B72"}
 
-# ── Layout ────────────────────────────────────────────────────────────────────
+# layout
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], title="CNCF Maintainers Dashboard")
 
 SIDEBAR = {
@@ -81,7 +86,7 @@ content = html.Div([
 app.layout = html.Div([sidebar, content])
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# filters
 
 def filter_df(status_vals, projects, company_search):
     filtered = df[df["Status"].isin(status_vals or [])]
@@ -104,7 +109,7 @@ def make_table(data, columns, page_size=25):
     )
 
 
-# ── Callbacks ─────────────────────────────────────────────────────────────────
+# callbacks 
 
 @app.callback(
     Output("project-filter", "options"),
@@ -160,7 +165,7 @@ def render_tab(active_tab, status_vals, projects, company_search):
     if filtered.empty:
         return dbc.Alert("No data matches the current filters.", color="warning")
 
-    # ── Company Overview ──
+    # company overview
     if active_tab == "tab-company":
         co = (
             filtered.groupby("Company")["Maintainer"].count().reset_index()
@@ -191,7 +196,7 @@ def render_tab(active_tab, status_vals, projects, company_search):
             return html.Div([dcc.Graph(figure=fig), html.Hr(), dcc.Graph(figure=fig2)])
         return dcc.Graph(figure=fig)
 
-    # ── Project Overview ──
+    # project overview
     elif active_tab == "tab-project":
         pc = (
             filtered.groupby(["Project", "Status"])["Maintainer"].count().reset_index()
