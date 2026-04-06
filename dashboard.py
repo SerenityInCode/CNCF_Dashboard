@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 
 # ── Data loading ──────────────────────────────────────────────────────────────
 
-def load_data(path="project-maintainers.csv"):
+def load_data(path="data/project-maintainers.csv"):
     df = pd.read_csv(path, header=0)
     df.columns = ["Status", "Project", "Maintainer", "Company", "GitHub", "OwnersURL"]
     df["Status"]  = df["Status"].replace("", pd.NA).ffill()
