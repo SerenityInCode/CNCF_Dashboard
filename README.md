@@ -28,9 +28,9 @@ The dashboard loads data from `data/project-maintainers.csv` and provides four i
 Columns: `Status`, `Project`, `Maintainer`, `Company`, `GitHub`, `OwnersURL`
 
 Project statuses:
-- **Graduated** — mature, production-ready projects (e.g. Kubernetes, Prometheus, Helm)
+- **Graduated** — mature, production ready projects (e.g. Kubernetes, Prometheus, Helm)
 - **Incubating** — growing projects with proven adoption (e.g. gRPC, NATS, Notary)
-- **Sandbox** — early-stage experimental projects
+- **Sandbox** — early stage experimental projects
 
 ## Requirements
 
@@ -54,8 +54,11 @@ Then open [http://localhost:8050](http://localhost:8050) in your browser.
 
 ```
 cncf_dashboard/
-├── dashboard.py              # Main app
+├── dashboard.py            
 ├── data/
 │   └── project-maintainers.csv
 └── README.md
+└── requirements.txt
+
+
 ```
